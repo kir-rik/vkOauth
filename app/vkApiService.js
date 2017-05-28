@@ -1,13 +1,15 @@
 var fetch = require('node-fetch');
 
-async function getAccessToken(){
+
+function getAccessToken(code){
     const app_id = 6046074;
-    let url = `https://oauth.vk.com/authorize?client_id=${app_id}&display=popup&redirect_uri=https://oauth.vk.com/blank.html&scope=friends&response_type=token`;
+    //let secretKey = 'Put your key here';
+    let secretKey = 'OpA4NGNSqooxW1fG1ezX';
+    let url = `https://oauth.vk.com/access_token?client_id=${app_id}&client_secret=${secretKey}&redirect_uri=http://localhost:3000&code=${code}`;
+    console.log('getAccessToken, url: ', url);
     let promise = fetch(url)
     .then(res => {
-        // console.log(res.headers.raw());
-        // console.log(res.headers.get('content-type'));
-        console.log('cookie', res.json());
+        console.log(res.json());
     })
     .catch(err => {
         console.error('Error in getAccessToken', err);
@@ -29,9 +31,9 @@ async function getFirstGroup(accessToken){
     return group;
 }
 
-
-async function getMessages(accessToken, groupId){
-    let url = `https://api.vk.com/method/wall.get?owner_id=${groupId}&count=5&access_token=${accessToken}`
+async function getMessages(accessToken, groupId, count){
+    count = count || 5;
+    let url = `https://api.vk.com/method/wall.get?owner_id=${groupId}&count=${count}&access_token=${accessToken}`
     let group = fetch(url)
     .then(messages => messages)
     .catch(err => {
@@ -42,9 +44,29 @@ async function getMessages(accessToken, groupId){
     return group;
 }
 
+function setAuthCode(req, res, session){
+    if (req.query.code){
+        console.log('GET CODE! :))))) ', req.query.code);
+        session.code = req.query.code;
+    }
+
+    if (!session.code){
+        console.log('NO CODE! :(((((( ');
+        let url = getLoginUrl();
+        res.redirect(url);
+        res.end();
+    }
+}
+
+function getLoginUrl(){
+    const app_id = 6046074;
+    let url = `https://oauth.vk.com/authorize?client_id=${app_id}&display=page&redirect_uri=http://localhost:3000&scope=groups&response_type=code`;
+    return url;
+}
 
 module.exports = {
     getAccessToken: getAccessToken,
+    setAuthCode: setAuthCode,
     getFirstGroup: getFirstGroup,
     getMessages: getMessages
 }
