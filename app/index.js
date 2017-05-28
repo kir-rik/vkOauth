@@ -31,10 +31,14 @@ app.get('/', async (req, res) => {
 
     if (!sess.accessToken && sess.code){
         let accessToken = await vkApiService.getAccessToken(sess.code);
-        console.log(accessToken);
-        // .then( _ => sess.accessToken = _ );
-            // res.redirect('/news');
-            // res.end();
+        if (accessToken){
+            sess.accessToken = accessToken;
+            res.redirect('/news');
+        }
+        else {
+            //maybe code expired
+            sess.code = null;
+        }
     }
 
 });

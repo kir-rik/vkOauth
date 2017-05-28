@@ -10,14 +10,13 @@ function getAccessToken(code){
     let promise = fetch(url)
     .then(res => {
         console.log('access token fetched with status ', res.status);
-        // console.log('FETCHED! ', res.text());
-        return res;
-        // res
-        // .then(res2 => console.log('FETCHED2! ', res2))
-        // .catch(err => {
-        //     console.error('Error in getAccessToken level2', err);
-        //     return null;
-        // });
+        var data = JSON.parse(res.data);
+        if (data.access_token){
+            return data.access_token;
+        } else {
+            console.log(data);
+            return null;
+        }
     })
     .catch(err => {
         console.error('Error in getAccessToken', err);
