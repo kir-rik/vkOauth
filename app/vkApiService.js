@@ -6,10 +6,18 @@ function getAccessToken(code){
     //let secretKey = 'Put your key here';
     let secretKey = 'OpA4NGNSqooxW1fG1ezX';
     let url = `https://oauth.vk.com/access_token?client_id=${app_id}&client_secret=${secretKey}&redirect_uri=http://localhost:3000&code=${code}`;
-    console.log('getAccessToken, url: ', url);
+    // console.log('getAccessToken, url: ', url);
     let promise = fetch(url)
     .then(res => {
-        console.log(res.json());
+        console.log('access token fetched with status ', res.status);
+        // console.log('FETCHED! ', res.text());
+        return res;
+        // res
+        // .then(res2 => console.log('FETCHED2! ', res2))
+        // .catch(err => {
+        //     console.error('Error in getAccessToken level2', err);
+        //     return null;
+        // });
     })
     .catch(err => {
         console.error('Error in getAccessToken', err);
