@@ -3,8 +3,7 @@ var fetch = require('node-fetch');
 
 function getAccessToken(code){
     const app_id = 6046074;
-    //let secretKey = 'Put your key here';
-    let secretKey = 'OpA4NGNSqooxW1fG1ezX';
+    let secretKey = 'Put your key here';
     let url = `https://oauth.vk.com/access_token?client_id=${app_id}&client_secret=${secretKey}&redirect_uri=http://localhost:3000&code=${code}`;
     // console.log('getAccessToken, url: ', url);
     let promise = fetch(url)
