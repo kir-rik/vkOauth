@@ -49,8 +49,10 @@ app.get('/', async (req, res) => {
 });
 
 app.get('/news.html', async (req, res) => {
+    console.log('/news.html');
     if (!req.session.accessToken || !req.session.news) {
-        res.redirect('../')
+        //res.send(null);
+        res.redirect('/');
     }
 });
 
@@ -61,8 +63,7 @@ app.post('/getNews', async (req, res) => {
         sess.news = news;
         res.send(sess.news);
     } else {
-
-        res.redirect('../');
+        res.send(null);
     }
 });
 

@@ -5,6 +5,9 @@ function ready(){
     container.classList.add('wall_text');
     webService.getNews()
     .then(function(news) {
+            if (!news){
+                window.location.href="/";
+            }
             for (var i = 0; i < news.length; i++) {
                 var outerDiv = document.createElement("div");
                 outerDiv.classList.add('post');

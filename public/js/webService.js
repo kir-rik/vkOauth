@@ -8,7 +8,7 @@ var webService = (function(){
     function getNews(){
         return axios.post('http://localhost:3000/getNews')
         .then( res => {
-            return res.data;
+            return res ? res.data : null;
         });
     }
 
