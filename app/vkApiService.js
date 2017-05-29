@@ -1,6 +1,6 @@
 var axios = require('axios');
 const app_id = 6046074;
-const secretKey = 'iqzs9KFLo7vQXe4phzsM'; //<-- PUT ACTUAL KEY HERE
+const secretKey = ''; //<-- PUT ACTUAL KEY HERE
 
 function getAccessToken(code){
 

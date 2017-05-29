@@ -14,7 +14,8 @@ app.use(session({
 
 app.use('/css', express.static('public/css'));
 app.use('/js', express.static('public/js'));
-app.use('/pages', express.static('public/pages'));
+// app.use('/pages', express.static('public/pages'));
+app.use('/', express.static('public/pages'));
 
 app.get('/', async (req, res) => {
     let sess = req.session;
@@ -22,7 +23,7 @@ app.get('/', async (req, res) => {
     if (sess.accessToken){
         let news = await vkApiService.getNews(sess.accessToken);
         sess.news = news;
-        res.redirect('/pages/news.html');
+        res.redirect('/news.html');
         res.end();
     }
 
@@ -36,7 +37,7 @@ app.get('/', async (req, res) => {
             sess.accessToken = accessToken;
             let news = await vkApiService.getNews(sess.accessToken);
             sess.news = news;
-            res.redirect('/pages/news.html');
+            res.redirect('/news.html');
             res.end();
         }
         else {
@@ -47,7 +48,7 @@ app.get('/', async (req, res) => {
 
 });
 
-app.get('/pages/news.html', async (req, res) => {
+app.get('/news.html', async (req, res) => {
     if (!req.session.accessToken || !req.session.news) {
         res.redirect('../')
     }
