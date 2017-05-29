@@ -1,0 +1,27 @@
+body {
+    background: #edeef0;
+}
+.wall_text {
+    /*background-color: rgb(255, 255, 255);*/
+    border-radius:2px;
+    padding: 8px 20px 19px;
+    word-wrap: break-word;
+    text-overflow: ellipsis;
+    position: relative;
+    width: 510px;
+    line-height: 14px;    
+    font-size: 13px;
+    color: #000;
+}
+
+.post {
+    margin-top: 0;
+    margin: 15px 0 0;
+    padding: 8px 20px 19px;
+    border-radius: 0 0 2px 2px;
+    line-height: 14px;
+    position: relative;
+    overflow: visible;    
+    background: #fff;
+    box-shadow: 0 1px 0 0 #d7d8db, 0 0 0 1px #e3e4e8;
+}

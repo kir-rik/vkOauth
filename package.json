@@ -10,8 +10,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "axios": "^0.16.1",
     "express": "^4.15.3",
-    "express-session": "^1.15.3",
-    "node-fetch": "^1.7.0"
+    "express-session": "^1.15.3"
   }
 }

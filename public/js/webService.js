@@ -1,17 +1,15 @@
+"use strict"
 var webService = (function(){
+
     return webService = {
-        auth: auth,
-        test: test
+        getNews: getNews
     }
 
-    function auth(){
-        fetch('http://localhost:3000', _ => console.log(_));
+    function getNews(){
+        return axios.post('http://localhost:3000/getNews')
+        .then( res => {
+            return res.data;
+        });
     }
-
-    function test(){
-        console.log('azzazaza');
-        fetch('http://localhost:3000', _ => console.log(_));
-    }
-
 
 })();

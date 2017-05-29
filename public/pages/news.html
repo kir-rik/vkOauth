@@ -1,8 +1,32 @@
 <html>
 <head>
-
+    <link rel="stylesheet" type="text/css" href="/css/styles.css">
 </head>
 <body>
-    <h1 style='color:red'>NEWS!</h1>
+    <!--<h1 style='color:red'>NEWS!</h1>-->
+    <div id='news-container'>
+
+    </div>
+    
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.rawgit.com/alexcorvi/anchorme.js/gh-pages/dist-browser/anchorme.js"></script>
+    <script src='/js/webService.js'></script>
+    <script>
+        'use strict'
+        document.addEventListener("DOMContentLoaded", ready);
+        function ready(){
+            var container = document.getElementById('news-container');
+            container.classList.add('wall_text');
+            webService.getNews()
+            .then(function(news) {
+                    for (var i = 0; i < news.length; i++) {
+                        var outerDiv = document.createElement("div");
+                        outerDiv.classList.add('post');
+                        outerDiv.innerHTML = anchorme(news[i]);
+                        container.appendChild(outerDiv);
+                    }
+                });
+        }
+    </script>
 </body>
 </html>

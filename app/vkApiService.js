@@ -1,19 +1,23 @@
-var fetch = require('node-fetch');
-
+// var fetch = require('node-fetch');
+var axios = require('axios');
+const app_id = 6046074;
+const secretKey = 'iqzs9KFLo7vQXe4phzsM';
 
 function getAccessToken(code){
-    const app_id = 6046074;
-    let secretKey = 'Put your key here';
-    let url = `https://oauth.vk.com/access_token?client_id=${app_id}&client_secret=${secretKey}&redirect_uri=http://localhost:3000&code=${code}`;
-    // console.log('getAccessToken, url: ', url);
-    let promise = fetch(url)
+
+    let promise = axios.get('https://oauth.vk.com/access_token', {
+        params: {
+            client_id: app_id,
+            client_secret: secretKey,
+            redirect_uri: 'http://localhost:3000',
+            code: code
+        }
+    })
     .then(res => {
-        console.log('access token fetched with status ', res.status);
-        var data = JSON.parse(res.data);
-        if (data.access_token){
-            return data.access_token;
+        if (res.data.access_token){
+            return res.data.access_token;
         } else {
-            console.log(data);
+            console.log(res.data);
             return null;
         }
     })
@@ -25,39 +29,70 @@ function getAccessToken(code){
     return promise;
 }
 
-async function getFirstGroup(accessToken){
-    let url = `https://api.vk.com/method/groups.get?count=1&access_token=${accessToken}`;
-    let group = fetch(url)
-    .then(group => group)
+async function getFirstGroupId(accessToken){
+    let promise = axios.get('https://api.vk.com/method/groups.get', {
+        params: {
+            access_token: accessToken,
+            count: 1
+        }
+    })
+    .then(res => {
+        if (res.data.response){
+            return res.data.response[1];
+        } else {
+            return null;
+        }
+    })
     .catch(err => {
         console.error('Error in getFirstGroup', err);
-        throw null;
+        return null;
     });
 
-    return group;
+    return promise;
 }
 
 async function getMessages(accessToken, groupId, count){
-    count = count || 5;
-    let url = `https://api.vk.com/method/wall.get?owner_id=${groupId}&count=${count}&access_token=${accessToken}`
-    let group = fetch(url)
-    .then(messages => messages)
+    count = count || 5
+    let promise = axios.get('https://api.vk.com/method/wall.get', {
+        params: {
+            access_token: accessToken,
+            owner_id: `-${groupId}`,
+            count: count
+        }
+    })
+    .then(res => {
+        if (res.data.response){
+            let _count = res.data.response[0] < count ?  res.data.response[0] : count; //in case there is not enough posts
+            let result = [];
+            for ( let i = 1; i <= _count; i++) {
+                result.push(res.data.response[i].text);
+            }
+            return result;
+        } else {
+            console.log(res.data);
+            return null;
+        }
+    })
     .catch(err => {
         console.error('Error in getMessages', err);
-        throw null;
+        return null;
     });
 
-    return group;
+    return promise;
+}
+
+async function getNews(accessToken){
+    let groupId = await getFirstGroupId(accessToken);
+    let news = await getMessages(accessToken, groupId);
+    return news;
 }
 
 function setAuthCode(req, res, session){
     if (req.query.code){
-        console.log('GET CODE! :))))) ', req.query.code);
         session.code = req.query.code;
     }
 
     if (!session.code){
-        console.log('NO CODE! :(((((( ');
         let url = getLoginUrl();
         res.redirect(url);
         res.end();
@@ -73,6 +108,5 @@ function getLoginUrl(){
 module.exports = {
     getAccessToken: getAccessToken,
     setAuthCode: setAuthCode,
-    getFirstGroup: getFirstGroup,
-    getMessages: getMessages
+    getNews: getNews
 }

@@ -1,6 +1,7 @@
 const express = require('express');
-const session = require('express-session')
-const vkApiService = require('./vkApiService')
+const session = require('express-session');
+const querystring = require('querystring'); 
+const vkApiService = require('./vkApiService');
 
 
 const app = express();
@@ -11,6 +12,7 @@ app.use(session({
   saveUninitialized: true
 }))
 
+app.use('/css', express.static('public/css'));
 app.use('/js', express.static('public/js'));
 app.use('/pages', express.static('public/pages'));
 
@@ -18,12 +20,11 @@ app.get('/', async (req, res) => {
     let sess = req.session;
 
     if (sess.accessToken){
-        console.log('/root, HAVE TOKEN!!! :)))))) ', sess.accessToken)
-        res.redirect('/pages/news');
+        let news = await vkApiService.getNews(sess.accessToken);
+        sess.news = news;
+        res.redirect('/pages/news.html');
         res.end();
     }
-
-    console.log('/root, NO TOKEN! :((((((( ')
 
     if (!sess.code){
         vkApiService.setAuthCode(req, res, sess);
@@ -33,7 +34,10 @@ app.get('/', async (req, res) => {
         let accessToken = await vkApiService.getAccessToken(sess.code);
         if (accessToken){
             sess.accessToken = accessToken;
-            res.redirect('/news');
+            let news = await vkApiService.getNews(sess.accessToken);
+            sess.news = news;
+            res.redirect('/pages/news.html');
+            res.end();
         }
         else {
             //maybe code expired
@@ -43,20 +47,15 @@ app.get('/', async (req, res) => {
 
 });
 
-app.get('/news', async (req, res) => {
-    let sess = req.session;
-    console.log('/news, NO TOKEN! :((((((( ')
-    if (!sess.accessToken){
-        res.redirect('/');
-        res.end();
+app.get('/pages/news.html', async (req, res) => {
+    if (!req.session.news){
+        res.redirect('/')
     }
-    console.log('/news, HAVE TOKEN!!! :)))))) ', sess.accessToken)
-    // console.log('HAVE TOKEN!!! :)))))) ', sess.accessToken)
-    // let group = await vkApiService.getFirstGroup(sess.accessToken);
-    // console.log('group', group);
-    // let news = await vkApiService.getMessages(sess.accessToken, group.Id);
-    // console.log('group', group);
 });
 
+app.post('/getNews', async (req, res) => {
+    let sess = req.session;
+    res.send(sess.news);
+});
 
 app.listen(3000, () =>  console.log('Server started on port 3000'));
