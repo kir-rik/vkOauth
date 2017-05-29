@@ -49,13 +49,24 @@ app.get('/', async (req, res) => {
 
 app.get('/pages/news.html', async (req, res) => {
     if (!req.session.news){
-        res.redirect('/')
+        res.redirect('../')
     }
 });
 
 app.post('/getNews', async (req, res) => {
     let sess = req.session;
     res.send(sess.news);
+    // console.log('/getNews');
+    // if (sess.accessToken){
+    //     // console.log('let news = await vkApiService.getNews(sess.accessToken); 62', sess.accessToken);
+    //     console.log('have access token');
+    //     let news = await vkApiService.getNews(sess.accessToken);
+    //     sess.news = news;
+    //     res.send(sess.news);
+    // } else {
+    //     console.log('have not acess token');
+    //     res.redirect('../');
+    // }
 });
 
 app.listen(3000, () =>  console.log('Server started on port 3000'));

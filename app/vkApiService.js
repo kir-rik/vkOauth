@@ -17,7 +17,7 @@ function getAccessToken(code){
         if (res.data.access_token){
             return res.data.access_token;
         } else {
-            console.log(res.data);
+            console.error(res.data);
             return null;
         }
     })
@@ -29,11 +29,12 @@ function getAccessToken(code){
     return promise;
 }
 
-async function getFirstGroupId(accessToken){
+async function getFirstGroup(accessToken){
     let promise = axios.get('https://api.vk.com/method/groups.get', {
         params: {
             access_token: accessToken,
-            count: 1
+            count: 1,
+            extended: 1
         }
     })
     .then(res => {
@@ -65,11 +66,26 @@ async function getMessages(accessToken, groupId, count){
             let _count = res.data.response[0] < count ?  res.data.response[0] : count; //in case there is not enough posts
             let result = [];
             for ( let i = 1; i <= _count; i++) {
-                result.push(res.data.response[i].text);
+                var attachments = res.data.response[i].attachments;
+                let photos = [];
+                for ( let j = 0; j < attachments.length; j++){
+                    for(var key in attachments[j]) {
+                        if (/^photo/.test(key)){
+                            photos.push({
+                                src: attachments[j][key].src_big || attachments[j][key].src
+                            })
+                        }
+                    }
+                }
+
+                result.push({
+                    text: res.data.response[i].text,
+                    photos: photos
+                });
             }
             return result;
         } else {
-            console.log(res.data);
+            console.error(res.data);
             return null;
         }
     })
@@ -82,8 +98,10 @@ async function getMessages(accessToken, groupId, count){
 }
 
 async function getNews(accessToken){
-    let groupId = await getFirstGroupId(accessToken);
-    let news = await getMessages(accessToken, groupId);
+    let group = await getFirstGroup(accessToken);
+    let news = await getMessages(accessToken, group.gid);
+    news.name = group.name;
+    news.photo = group.photo;
     return news;
 }
 
