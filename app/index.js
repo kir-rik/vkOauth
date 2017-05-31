@@ -1,6 +1,5 @@
 const express = require('express');
 const session = require('express-session');
-// const querystring = require('querystring');
 const vkApiService = require('./vkApiService');
 
 
@@ -14,6 +13,8 @@ app.use(session({
 
 app.use('/css', express.static('public/css'));
 app.use('/js', express.static('public/js'));
+app.use('/js/axios', express.static('node_modules/axios/dist'));
+
 app.use('/', express.static('public/pages'));
 
 app.get('/', async (req, res) => {

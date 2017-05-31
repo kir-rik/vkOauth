@@ -1,7 +1,8 @@
 const axios = require('axios');
+const anchorme = require('anchorme').default;
 
 const appId = 6046074;
-const secretKey = '5fboXlMP6qvjw8BiLIvC'; // <-- PUT ACTUAL KEY HERE
+const secretKey = 'W7dLfU2RknT4BRbcPEWt'; // <-- PUT ACTUAL KEY HERE
 
 function getAccessToken(code) {
     const promise = axios.get('https://oauth.vk.com/access_token', {
@@ -76,7 +77,7 @@ async function getMessages(accessToken, groupId, countParam) {
                 }
 
                 result.push({
-                    text: res.data.response[i].text,
+                    text: anchorme(res.data.response[i].text),
                     photos,
                 });
             }

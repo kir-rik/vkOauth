@@ -16,7 +16,7 @@ function ready() {
             header.innerHTML = news.name;
 
             const body = document.createElement('div');
-            body.innerHTML = `${anchorme ? anchorme(news[i].text) : news[i].text  }<br/>`; // find urls and anchor it
+            body.innerHTML = `${news[i].text}<br/>`; // find urls and anchor it
 
             // outerDiv.appendChild(header);
             outerDiv.appendChild(body);
