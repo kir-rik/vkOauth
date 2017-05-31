@@ -1,15 +1,13 @@
 "use strict"
-var webService = (function(){
 
-    return webService = {
-        getNews: getNews
-    }
-
-    function getNews(){
+const webService = (function () {
+    function getNews() {
         return axios.post('http://localhost:3000/getNews')
-        .then( res => {
-            return res ? res.data : null;
-        });
+        .then(res => res ? res.data : null);
     }
 
+    const api = {
+        getNews,
+    };
+    return api;
 })();

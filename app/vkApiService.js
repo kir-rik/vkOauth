@@ -1,26 +1,25 @@
-var axios = require('axios');
-const app_id = 6046074;
-const secretKey = ''; //<-- PUT ACTUAL KEY HERE
+const axios = require('axios');
 
-function getAccessToken(code){
+const appId = 6046074;
+const secretKey = '5fboXlMP6qvjw8BiLIvC'; // <-- PUT ACTUAL KEY HERE
 
-    let promise = axios.get('https://oauth.vk.com/access_token', {
+function getAccessToken(code) {
+    const promise = axios.get('https://oauth.vk.com/access_token', {
         params: {
-            client_id: app_id,
+            client_id: appId,
             client_secret: secretKey,
             redirect_uri: 'http://localhost:3000',
-            code: code
-        }
+            code,
+        },
     })
-    .then(res => {
-        if (res.data.access_token){
+    .then((res) => {
+        if (res.data.access_token) {
             return res.data.access_token;
-        } else {
-            console.error(res.data);
-            return null;
         }
+        console.error(res.data);
+        return null;
     })
-    .catch(err => {
+    .catch((err) => {
         console.error('Error in getAccessToken', err);
         return null;
     });
@@ -28,22 +27,21 @@ function getAccessToken(code){
     return promise;
 }
 
-async function getFirstGroup(accessToken){
-    let promise = axios.get('https://api.vk.com/method/groups.get', {
+async function getFirstGroup(accessToken) {
+    const promise = axios.get('https://api.vk.com/method/groups.get', {
         params: {
             access_token: accessToken,
             count: 1,
-            extended: 1
-        }
+            extended: 1,
+        },
     })
-    .then(res => {
-        if (res.data.response){
+    .then((res) => {
+        if (res.data.response) {
             return res.data.response[1];
-        } else {
-            return null;
         }
+        return null;
     })
-    .catch(err => {
+    .catch((err) => {
         console.error('Error in getFirstGroup', err);
         return null;
     });
@@ -51,44 +49,43 @@ async function getFirstGroup(accessToken){
     return promise;
 }
 
-async function getMessages(accessToken, groupId, count){
-    count = count || 5
-    let promise = axios.get('https://api.vk.com/method/wall.get', {
+async function getMessages(accessToken, groupId, countParam) {
+    const count = countParam || 5;
+    const promise = axios.get('https://api.vk.com/method/wall.get', {
         params: {
             access_token: accessToken,
             owner_id: `-${groupId}`,
-            count: count
-        }
+            count,
+        },
     })
-    .then(res => {
-        if (res.data.response){
-            let _count = res.data.response[0] < count ?  res.data.response[0] : count; //in case there is not enough posts
-            let result = [];
-            for ( let i = 1; i <= _count; i++) {
-                var attachments = res.data.response[i].attachments;
-                let photos = [];
-                for ( let j = 0; j < attachments.length; j++){
-                    for(var key in attachments[j]) {
-                        if (/^photo/.test(key)){
+    .then((res) => {
+        if (res.data.response) {
+            const max = res.data.response[0] < count ? res.data.response[0] : count;
+            const result = [];
+            for (let i = 1; i <= max; i++) {
+                const attachments = res.data.response[i].attachments;
+                const photos = [];
+                for (let j = 0; j < attachments.length; j++) {
+                    for (const key in attachments[j]) {
+                        if (/^photo/.test(key)) {
                             photos.push({
-                                src: attachments[j][key].src_big || attachments[j][key].src
-                            })
+                                src: attachments[j][key].src_big || attachments[j][key].src,
+                            });
                         }
                     }
                 }
 
                 result.push({
                     text: res.data.response[i].text,
-                    photos: photos
+                    photos,
                 });
             }
             return result;
-        } else {
-            console.error(res.data);
-            return null;
         }
+        console.error(res.data);
+        return null;
     })
-    .catch(err => {
+    .catch((err) => {
         console.error('Error in getMessages', err);
         return null;
     });
@@ -96,34 +93,35 @@ async function getMessages(accessToken, groupId, count){
     return promise;
 }
 
-async function getNews(accessToken){
-    let group = await getFirstGroup(accessToken);
-    let news = await getMessages(accessToken, group.gid);
-    news.name = group.name;
-    news.photo = group.photo;
+async function getNews(accessToken) {
+    const group = await getFirstGroup(accessToken);
+    const news = await getMessages(accessToken, group.gid);
+    // news.name = group.name;
+    // news.photo = group.photo;
     return news;
 }
 
-function setAuthCode(req, res, session){
-    if (req.query.code){
-        session.code = req.query.code;
-    }
-
-    if (!session.code){
-        let url = getLoginUrl();
-        res.redirect(url);
-        res.end();
-    }
-}
-
-function getLoginUrl(){
-    const app_id = 6046074;
-    let url = `https://oauth.vk.com/authorize?client_id=${app_id}&display=page&redirect_uri=http://localhost:3000&scope=groups&response_type=code`;
+function getLoginUrl() {
+    const url = `https://oauth.vk.com/authorize?client_id=${appId}&display=page&redirect_uri=http://localhost:3000&scope=groups&response_type=code`;
     return url;
 }
 
-module.exports = {
-    getAccessToken: getAccessToken,
-    setAuthCode: setAuthCode,
-    getNews: getNews
+function getAuthCode(req, res, session) {
+    if (req.query.code) {
+        return req.query.code;
+    }
+
+    if (!session.code) {
+        const url = getLoginUrl();
+        res.redirect(url);
+        res.end();
+    }
+
+    return null;
 }
+
+module.exports = {
+    getAccessToken,
+    getAuthCode,
+    getNews,
+};
