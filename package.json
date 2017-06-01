@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index.js",
-    "lint": "eslint --config .eslintrc **"
+    "lint:back": "eslint --config .eslintrc app/**",
+    "lint:front": "eslint --config .eslintrc public/js/**"
   },
   "author": "",
   "license": "ISC",
