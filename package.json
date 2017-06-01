@@ -4,8 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
@@ -16,8 +15,11 @@
     "express-session": "^1.15.3"
   },
   "devDependencies": {
+    "browser-sync": "^2.18.12",
     "eslint": "^3.19.0",
     "eslint-config-airbnb-base": "^11.2.0",
-    "eslint-plugin-import": "^2.3.0"
+    "eslint-plugin-import": "^2.3.0",
+    "gulp": "^3.9.1",
+    "gulp-nodemon": "^2.2.1"
   }
 }

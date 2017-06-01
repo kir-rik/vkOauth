@@ -2,7 +2,6 @@ const express = require('express');
 const session = require('express-session');
 const vkApiService = require('./vkApiService');
 
-
 const app = express();
 
 app.use(session({
