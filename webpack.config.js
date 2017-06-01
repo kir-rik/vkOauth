@@ -7,6 +7,7 @@ module.exports = {
     //     home: './frontend'
     // },
     entry: './index.js',
+    target: 'node',
 
     output: {
         path: __dirname,

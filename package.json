@@ -8,7 +8,7 @@
     "start": "node index.js",
     "lint:back": "eslint --config .eslintrc app/**",
     "lint:front": "eslint --config .eslintrc public/js/**",
-    "webpack": "webpack --progress"
+    "webpack": "webpack --progress --watch"
   },
   "author": "",
   "license": "ISC",
