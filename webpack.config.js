@@ -14,7 +14,7 @@ module.exports = {
         filename: 'dist/bundle.js',
     },
 
-    // watch: NODE_ENV == 'development',
+    watch: NODE_ENV === 'development',
 
     // watchOptions: {
     //     aggregateTimeouit: 100
