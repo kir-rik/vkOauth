@@ -7,7 +7,7 @@ module.exports = {
 
     // entry: {
     //     home: './frontend'
-    // }, 
+    // },
     entry: './index.js',
 
     output: {
@@ -15,20 +15,20 @@ module.exports = {
         filename: 'dist/bundle.js',
     },
 
-    //watch: NODE_ENV == 'development',
+    // watch: NODE_ENV == 'development',
 
     // watchOptions: {
     //     aggregateTimeouit: 100
     // },
 
-    devtool: NODE_ENV == 'development' ? 'source-map' : null,
+    devtool: NODE_ENV === 'development' ? 'source-map' : null,
 
     node: {
         net: 'empty',
         fs: 'empty',
     },
     plugins: [
-        //new webpack.DefinePlugin({NODE_ENV: JSON.stringify(NODE_ENV)})
+        // new webpack.DefinePlugin({NODE_ENV: JSON.stringify(NODE_ENV)})
     ],
     module: {
         loaders: [

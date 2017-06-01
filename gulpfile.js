@@ -1,64 +1,60 @@
 const gulp = require('gulp');
 const browserSync = require('browser-sync');
 const nodemon = require('gulp-nodemon');
+
 const BROWSER_SYNC_RELOAD_DELAY = 1000;
 
 
-const config = {}
+const config = {};
 
-function setProd(){
+
+function setProd() { // eslint-disable-line no-unused-vars
     config.rootScript = 'dist/bundle.js';
-    config.mode = 'prod'
+    config.mode = 'prod';
 }
-function setDev(){
+function setDev() {
     config.rootScript = 'index.js';
-    config.mode = 'devprod'
+    config.mode = 'devprod';
 }
 
 setDev();
 
-gulp.task('nodemon', function (cb) {      
+gulp.task('nodemon', (cb) => {
     let called = false;
-    return nodemon({ 
-        script: config.rootScript
-    })  
-    .on('start', function () {      
+    return nodemon({
+        script: config.rootScript,
+    })
+    .on('start', () => {
         if (!called) { cb(); }
         called = true;
     })
-    .on('restart', function () {      
-        setTimeout(function reload() {
+    .on('restart', () => {
+        setTimeout(() => {
             browserSync.reload({
-                stream: false
+                stream: false,
             });
         }, BROWSER_SYNC_RELOAD_DELAY);
-    })  
+    });
 });
 
-gulp.task('browser-sync', ['nodemon'], function () {
-
+gulp.task('browser-sync', ['nodemon'], () => {
     browserSync({
         proxy: 'http://localhost:3000',
-        port: 4000
+        port: 4000,
     });
-
 });
 
-gulp.task('js',  function () {
-    return gulp.src('public/js/*.js');
-});
+gulp.task('js', () => gulp.src('public/js/*.js'));
 
-gulp.task('css', function () {
-  return gulp.src('public/**/*.css')
-    .pipe(browserSync.reload({ stream: true }));
-});
+gulp.task('css', () => gulp.src('public/**/*.css')
+    .pipe(browserSync.reload({ stream: true })));
 
-gulp.task('bs-reload', function () {
+gulp.task('bs-reload', () => {
     browserSync.reload();
 });
 
-gulp.task('default', ['browser-sync'],  function (cb) {
-    gulp.watch('public/**/*.js',   ['js', browserSync.reload]);
-    gulp.watch('public/**/*.css',  ['css']);
+gulp.task('default', ['browser-sync'], () => {
+    gulp.watch('public/**/*.js', ['js', browserSync.reload]);
+    gulp.watch('public/**/*.css', ['css']);
     gulp.watch('public/**/*.html', ['bs-reload']);
 });

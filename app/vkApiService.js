@@ -67,19 +67,20 @@ async function getMessages(accessToken, groupId, countParam) {
                 const attachments = res.data.response[i].attachments;
                 const photos = [];
                 for (let j = 0; j < attachments.length; j++) {
-                    for (const key in attachments[j]) {
-                        if (/^photo/.test(key)) {
-                            photos.push({
-                                src: attachments[j][key].src_big || attachments[j][key].src,
-                            });
-                        }
+                    Object.keys(attachments[j]).forEach(
+                        (key) => {
+                            if (/^photo/.test(key)) {
+                                photos.push({
+                                    src: attachments[j][key].src_big || attachments[j][key].src,
+                                });
+                            }
 
-                        if (key === 'video') {
-                            photos.push({
-                                src: attachments[j][key].image_big,
-                            });
-                        }
-                    }
+                            if (key === 'video') {
+                                photos.push({
+                                    src: attachments[j][key].image_big,
+                                });
+                            }
+                        });
                 }
 
                 result.push({
