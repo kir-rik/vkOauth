@@ -1,9 +1,9 @@
-"use strict"
+'use strict';
 
 function ready() {
     const container = document.getElementById('news-container');
     container.classList.add('wall_text');
-    webService.getNews()
+    window.webService.getNews()
     .then((news) => {
         if (!news) {
             window.location.href = '/';

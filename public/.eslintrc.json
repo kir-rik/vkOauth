@@ -1,0 +1,25 @@
+{
+    "extends": "airbnb-base",
+    "plugins": [
+        "import"
+    ],   
+    "parserOptions": {
+        "ecmaFeatures": {
+            "globalReturn" : true
+        }
+    },    
+    "rules": {
+        "linebreak-style": ["error", "windows"],
+        "indent": ["error", 4],
+        "no-plusplus": "off",
+        "no-confusing-arrow": "off",
+        "strict": 0,
+        "func-names": 0
+    },
+    "globals": {
+        "axios": true
+    },
+    "env": {
+        "browser": true
+    }
+}

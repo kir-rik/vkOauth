@@ -8,5 +8,8 @@
         "indent": ["error", 4],
         "no-plusplus": "off",
         "no-confusing-arrow": "off"
+    },
+    "env": {
+        "node": true
     }
 }
