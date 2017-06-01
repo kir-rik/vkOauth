@@ -4,7 +4,7 @@
         "import"
     ],
     "rules": {
-        "linebreak-style": ["error", "windows"],
+        "linebreak-style": 0,
         "indent": ["error", 4],
         "no-plusplus": "off",
         "no-confusing-arrow": "off"
