@@ -73,6 +73,12 @@ async function getMessages(accessToken, groupId, countParam) {
                                 src: attachments[j][key].src_big || attachments[j][key].src,
                             });
                         }
+
+                        if (key === 'video') {
+                            photos.push({
+                                src: attachments[j][key].image_big,
+                            });
+                        }
                     }
                 }
 
