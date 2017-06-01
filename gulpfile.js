@@ -1,28 +1,14 @@
 const gulp = require('gulp');
 const browserSync = require('browser-sync');
 const nodemon = require('gulp-nodemon');
+const webpack = require('webpack-stream');
 
 const BROWSER_SYNC_RELOAD_DELAY = 1000;
-
-
-const config = {};
-
-
-function setProd() { // eslint-disable-line no-unused-vars
-    config.rootScript = 'dist/bundle.js';
-    config.mode = 'prod';
-}
-function setDev() {
-    config.rootScript = 'index.js';
-    config.mode = 'devprod';
-}
-
-setDev();
 
 gulp.task('nodemon', (cb) => {
     let called = false;
     return nodemon({
-        script: config.rootScript,
+        script: 'dist/bundle.js',
     })
     .on('start', () => {
         if (!called) { cb(); }
@@ -57,4 +43,7 @@ gulp.task('default', ['browser-sync'], () => {
     gulp.watch('public/**/*.js', ['js', browserSync.reload]);
     gulp.watch('public/**/*.css', ['css']);
     gulp.watch('public/**/*.html', ['bs-reload']);
+    return gulp.src('src/entry.js')
+        .pipe(webpack())
+        .pipe(gulp.dest('dist/'));
 });

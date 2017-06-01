@@ -9,7 +9,7 @@
         }
     },    
     "rules": {
-        "linebreak-style": ["error", "windows"],
+        "linebreak-style": ["error", "unix"],
         "indent": ["error", 4],
         "no-plusplus": "off",
         "no-confusing-arrow": "off",
