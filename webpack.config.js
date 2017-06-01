@@ -1,7 +1,5 @@
-'use strict'
-
 const NODE_ENV = process.env.NODE_ENV || 'development';
-const webpack = require('webpack');
+const webpack = require('webpack'); // eslint-disable-line no-unused-vars
 
 module.exports = {
 
