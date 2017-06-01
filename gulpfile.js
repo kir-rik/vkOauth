@@ -3,10 +3,24 @@ const browserSync = require('browser-sync');
 const nodemon = require('gulp-nodemon');
 const BROWSER_SYNC_RELOAD_DELAY = 1000;
 
+
+const config = {}
+
+function setProd(){
+    config.rootScript = 'dist/bundle.js';
+    config.mode = 'prod'
+}
+function setDev(){
+    config.rootScript = 'index.js';
+    config.mode = 'devprod'
+}
+
+setDev();
+
 gulp.task('nodemon', function (cb) {      
     let called = false;
     return nodemon({ 
-        script: 'index.js'
+        script: config.rootScript
     })  
     .on('start', function () {      
         if (!called) { cb(); }
@@ -31,7 +45,7 @@ gulp.task('browser-sync', ['nodemon'], function () {
 });
 
 gulp.task('js',  function () {
-  return gulp.src('public/**/*.js')
+    return gulp.src('public/js/*.js');
 });
 
 gulp.task('css', function () {
