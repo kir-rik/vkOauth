@@ -7,17 +7,13 @@ const webpackConfig = require('./webpack.config.js');
 
 const BROWSER_SYNC_RELOAD_DELAY = 1000;
 
-gulp.task('front_scripts', () => {
-    const srcs = ['./client/js/*.js'];
-    return gulp.src(srcs)
+gulp.task('front_scripts', () => gulp.src('./client/js/*.js')
     .pipe(concat('all.js'))
-    .pipe(gulp.dest('./public/js'));
-});
-gulp.task('front_css', () => {
-    return gulp.src('./client/css/*.css')
+    .pipe(gulp.dest('./public/js')));
+
+gulp.task('front_css', () => gulp.src('./client/css/*.css')
     .pipe(concat('all.css'))
-    .pipe(gulp.dest('./public/css'));
-});
+    .pipe(gulp.dest('./public/css')));
 
 gulp.task('nodemon', (cb) => {
     let called = false;
@@ -46,18 +42,16 @@ gulp.task('browser-sync', ['nodemon'], () => {
 
 gulp.task('js', () => gulp.src('public/js/*.js'));
 
-gulp.task('css', () => gulp.src('public/**/*.css')
+gulp.task('css', () => gulp.src('public/css/*.css')
     .pipe(browserSync.reload({ stream: true })));
 
 gulp.task('bs-reload', () => {
     browserSync.reload();
 });
 
-gulp.task('webpack', () => {
-    return gulp.src('./index.js')
+gulp.task('webpack', () => gulp.src('./index.js')
         .pipe(webpack(webpackConfig))
-        .pipe(gulp.dest('dist/'));
-});
+        .pipe(gulp.dest('dist/')));
 
 gulp.task('default', ['browser-sync'], () => {
     gulp.watch('client/js/*.js', ['js', 'front_scripts', browserSync.reload]);

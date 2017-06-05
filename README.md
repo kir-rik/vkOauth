@@ -1,3 +1,2 @@
 # vkOauth
-start app with
-npm start
+start app with "npm start" command
