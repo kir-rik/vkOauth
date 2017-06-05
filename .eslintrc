@@ -9,12 +9,17 @@
         }
     },    
     "rules": {
-        "linebreak-style": ["error", "unix"],
-        "indent": ["error", 4],
+        "linebreak-style": ["warn", "unix"],
+        "indent": ["warn", 4],
+        "no-unused-vars": "warn",
+        "no-trailing-spaces": "warn",
         "no-plusplus": "off",
         "no-confusing-arrow": "off",
-        "strict": 0,
-        "func-names": 0
+        "strict": "off",
+        "func-names": "off",
+        "quotes": "warn",
+        "comma-dangle": "warn",
+        "prefer-const": "warn"
     },
     "globals": {
         "axios": true

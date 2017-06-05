@@ -1,11 +1,8 @@
 const NODE_ENV = process.env.NODE_ENV || 'development';
-const webpack = require('webpack'); // eslint-disable-line no-unused-vars
+// const webpack = require('webpack'); 
 
 module.exports = {
 
-    // entry: {
-    //     home: './frontend'
-    // },
     entry: './index.js',
     target: 'node',
 
@@ -23,7 +20,6 @@ module.exports = {
         fs: 'empty',
     },
     plugins: [
-        // new webpack.DefinePlugin({NODE_ENV: JSON.stringify(NODE_ENV)})
     ],
     module: {
         loaders: [
@@ -32,13 +28,3 @@ module.exports = {
     },
 };
 
-
-// module.exports.plugins.push(
-//     new webpack.optimize.UglifyJsPlugin({
-//         compress: {
-//             warnings: false,
-//             drop_console: false,
-//             unsafe: false
-//         }
-//     })
-// );

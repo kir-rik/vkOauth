@@ -12,14 +12,14 @@ app.use(session({
 
 app.use('/css', express.static('public/css'));
 app.use('/js', express.static('public/js'));
-app.use('/js/axios', express.static('node_modules/axios/dist'));
-
+app.use('/js', express.static('node_modules/axios/dist'));
 app.use('/', express.static('public/pages'));
 
 app.get('/', async (req, res) => {
     const sess = req.session;
 
     if (sess.accessToken) {
+        console.log('accessToken');
         const news = await vkApiService.getNews(sess.accessToken);
         sess.news = news;
         res.redirect('/news.html');
