@@ -1,9 +1,9 @@
-'use strict';
+import webService from './webService';
 
 function ready() {
     const container = document.getElementById('news-container');
     container.classList.add('wall_text');
-    window.webService.getNews()
+    webService.getNews()
     .then((news) => {
         if (!news) {
             window.location.href = '/';
@@ -34,17 +34,3 @@ function ready() {
 }
 
 document.addEventListener('DOMContentLoaded', ready);
-
-'use strict';
-
-window.webService = (function () {
-    function getNews() {
-        return axios.post('http://localhost:3000/getNews')
-        .then(res => res ? res.data : null);
-    }
-
-    const api = {
-        getNews,
-    };
-    return api;
-}());

@@ -19,7 +19,8 @@
         "func-names": "off",
         "quotes": "warn",
         "comma-dangle": "warn",
-        "prefer-const": "warn"
+        "prefer-const": "warn",
+        "import/newline-after-import": "warn"
     },
     "globals": {
         "axios": true

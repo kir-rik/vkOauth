@@ -1,5 +1,4 @@
 const NODE_ENV = process.env.NODE_ENV || 'development';
-// const webpack = require('webpack'); 
 
 module.exports = {
 
@@ -13,18 +12,9 @@ module.exports = {
 
     watch: NODE_ENV === 'development',
 
-    devtool: NODE_ENV === 'development' ? 'source-map' : null,
-
     node: {
         net: 'empty',
         fs: 'empty',
-    },
-    plugins: [
-    ],
-    module: {
-        loaders: [
-            { test: /\.css$/, loader: 'style!css' },
-        ],
     },
 };
 

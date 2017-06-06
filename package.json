@@ -5,10 +5,11 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "webpack --progress | gulp",
+    "start": "webpack | gulp",
     "lint:back": "eslint --config .eslintrc app/**",
     "lint:front": "eslint --config .eslintrc public/js/**",
-    "webpack": "webpack --progress"
+    "webpack:back": "webpack --progress --config webpack.back.config.js",
+    "webpack:front": "webpack --progress --config webpack.front.config.js"
   },
   "author": "",
   "license": "ISC",
