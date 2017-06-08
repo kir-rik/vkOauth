@@ -1,6 +1,4 @@
-// const path = require('path');
-// const webpack = require('webpack');
-// const webpackMerge = require('webpack-merge');
+const BabiliPlugin = require('babili-webpack-plugin');
 
 const NODE_ENV = process.env.NODE_ENV || 'development';
 
@@ -21,6 +19,9 @@ const serverConfig = {
         fs: 'empty',
     },
 
+    plugins: [
+        new BabiliPlugin(),
+    ]
 };
 
 const clientConfig = {
@@ -37,6 +38,9 @@ const clientConfig = {
 
     devtool: NODE_ENV === 'development' ? 'inline-source-map' : null,
 
+    plugins: [
+        new BabiliPlugin(),
+    ]
 };
 
 

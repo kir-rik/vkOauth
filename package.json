@@ -19,6 +19,7 @@
     "express-session": "^1.15.3"
   },
   "devDependencies": {
+    "babili-webpack-plugin": "^0.1.1",
     "browser-sync": "^2.18.12",
     "eslint": "^3.19.0",
     "eslint-config-airbnb-base": "^11.2.0",
