@@ -1,4 +1,5 @@
 const BabiliPlugin = require('babili-webpack-plugin');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 const NODE_ENV = process.env.NODE_ENV || 'development';
 
@@ -43,5 +44,9 @@ const clientConfig = {
     ],
 };
 
+if (NODE_ENV === 'development') {
+    serverConfig.plugins.push(new BundleAnalyzerPlugin({ analyzerPort: 8888 }));
+    clientConfig.plugins.push(new BundleAnalyzerPlugin({ analyzerPort: 8887 }));
+}
 
 module.exports = [serverConfig, clientConfig];

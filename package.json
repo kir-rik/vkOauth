@@ -28,6 +28,7 @@
     "gulp-concat": "^2.6.1",
     "gulp-nodemon": "^2.2.1",
     "webpack": "^2.6.1",
-    "webpack-async-await": "^1.1.0"
+    "webpack-async-await": "^1.1.0",
+    "webpack-bundle-analyzer": "^2.8.2"
   }
 }
