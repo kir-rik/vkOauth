@@ -21,7 +21,7 @@ const serverConfig = {
 
     plugins: [
         new BabiliPlugin(),
-    ]
+    ],
 };
 
 const clientConfig = {
@@ -40,7 +40,7 @@ const clientConfig = {
 
     plugins: [
         new BabiliPlugin(),
-    ]
+    ],
 };
 
 

@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "npm run webpack | gulp",
     "lint:back": "eslint --config .eslintrc app/**",
-    "lint:front": "eslint --config .eslintrc public/js/**",
+    "lint:front": "eslint --config .eslintrc client/js/**",
     "webpack": "webpack --progress --colors"
   },
   "author": "",
